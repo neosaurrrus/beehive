@@ -1,4 +1,4 @@
-import SetupGameForm from "./SetupGameForm/SetupGameForm"
+import SetupGameForm from "./NewGameForm/NewGameForm"
 import {Heading1, Heading2, Paragraph} from "@/components/Text/Text"
 
 export default function Setup() {

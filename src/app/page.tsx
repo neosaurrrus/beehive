@@ -12,7 +12,7 @@ export default function Home() {
       <Paragraph>2. Join a game</Paragraph>
       <Paragraph>3. Start a game</Paragraph>
      </section>
-     <Link href="/setup">
+     <Link href="/new">
       <span className="bg-green-400 text-white p-4 rounded-lg shadow-lg">Create Game</span>
       </Link>
     </main>
