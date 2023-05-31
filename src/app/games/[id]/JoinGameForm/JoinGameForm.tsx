@@ -14,7 +14,6 @@ export default function JoinGameForm({gameId}: {gameId: number}){
   
   useEffect(() => { // Set Local storage and redirect if data has been fetched
     if (playerData) {
-      console.log('playerData', playerData)
       localStorage.clear()
       localStorage.setItem('player_id', playerData[0]?.id.toLocaleString())
       localStorage.setItem('game_id', gameId.toLocaleString())
@@ -34,8 +33,6 @@ export default function JoinGameForm({gameId}: {gameId: number}){
     if (error) {
       console.log(error)
     }
-    console.log('playerData from join click', playerData)
-    
      playerData && setPlayerData(playerData) 
     }
 

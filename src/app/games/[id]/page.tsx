@@ -19,10 +19,10 @@ export async function getGame(id: string): Promise<Game> {
   const {data} = await supabase.from('games')
      .select()
      .eq('id', Number(id))
- if (!data) {
-   throw new Error('Failed to fetch game data')
- }
-  return data[0] 
+  if (!data) {
+    throw new Error('Failed to fetch game data')
+  }
+    return data[0]
 }
 
 export async function getPlayers(gameId: string) {
