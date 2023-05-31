@@ -1,6 +1,7 @@
 export interface Game {
   name: string
   admin: string
+  is_revealed: boolean
   id: number
 }
 
