@@ -2,7 +2,7 @@
 import {Heading1, Heading2, Paragraph} from "@/components/Text/Text"
 import {Game, Player} from "@/types"
 
-export default function Game({game, players}: {game: Game, players: Player[] }) {
+export default function Header({game, players = []}: {game: Game, players: Player[] }) {
   const { name, admin} = game || {name: '', admin: ''}
 
   const renderPlayers = () => {

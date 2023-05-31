@@ -1,42 +1,76 @@
 'use client';
-
-import {Game as GameType,} from "@/types"
+import { supabase } from '@/lib/supabaseClient'
+import {Game as GameType, Player} from "@/types"
 import JoinGameForm from "../JoinGameForm/JoinGameForm";
 import { useEffect, useState } from "react";
-import { Player } from "@/types";
 import Header from "./Header/Header";
 
-export default function GameContainer({game, players}: {game: GameType, players: Player[]}) {
-  // const [localPlayerId, setLocalPlayerId] = useState<string>()
-  // const [localGameId, setLocalGameId] = useState<string>()
+interface Payload<T>{
+  commit_timestamp: string,
+  errors: any[],
+  eventType: string,
+  new: T,
+  old: T,
+  schema: string,
+  table: string,
+}
 
-  // why does localStorage cause rerenders, see blog postMessage...narrow down the scope
-  // useEffect(() => { 
-  //   if(!localPlayerId && !localGameId) {
-  //     setLocalPlayerId(localStorage.getItem('player_id') || '')
-  //     setLocalGameId(localStorage.getItem('game_id') || '')
-  //   }
-  // }, [game, localGameId, localPlayerId])
+export default function GameContainer({serverGame, serverPlayers}:{serverGame: GameType, serverPlayers: Player[]}) {
 
-  // https://javascript.plainenglish.io/connecting-react-with-localstorage-ad590d4e4fa1
-  
+  const [players, setPlayers] = useState<Player[]>(serverPlayers)
+  const [game, setGame] = useState<GameType>(serverGame)
 
-  // console.log('localPlayerId', localPlayerId)
-  // console.log('localGameId', localGameId)
-  // console.log('game.id', game.id.toString())
-  // if (localPlayerId && localGameId === game.id.toString()) {
-  //   console.log('rendering game')
-  // }
-  
+  useEffect(() => {
+    const playersChannel = supabase.channel('Realtime Players').on('postgres_changes', {
+      event: 'INSERT',
+      schema: 'public',
+      table: 'players',
+      filter: `game_id=eq.${serverGame.id}`,
+    }, (payload: Payload<Player>) => {
+      console.log('payload', payload)
+      setPlayers([...players, payload.new])
+    }).subscribe()
+
+    return () => {
+      supabase.removeChannel(playersChannel)
+    }
+
+  },[players, serverGame.id])
+
+
+  useEffect(() => {
+    const gameChannel = supabase.channel('Realtime Game').on('postgres_changes', {
+      event: 'UPDATE',
+      schema: 'public',
+      table: 'games',
+      filter: `id=eq.${serverGame.id}`,
+    }, (payload:Payload<GameType>) => {
+      console.log('payload', payload)
+      setGame(payload.new)
+    }).subscribe()
+
+    return () => {
+      supabase.removeChannel(gameChannel)
+    }
+
+  },[serverGame.id])
+
+
+  if (localStorage.getItem('game_id') !== serverGame.id.toString()) {
+    console.log('rendering join form')
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <JoinGameForm gameId={serverGame.id} />
+      </main>
+    )
+  }
+
+  console.log('rendering serverGame')
+  console.log('localGame id', localStorage.getItem('game_id'))
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <JoinGameForm gameId={game.id} />
-    </main>
-  )
-
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-    <Header game={game} players={players} />
+      <h1 className="text-4xl">Welcome to {serverGame.name}</h1>
+      <Header game={game} players={players}/>
   </main>
   )
   
