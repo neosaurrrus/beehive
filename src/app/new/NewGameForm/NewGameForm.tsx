@@ -1,8 +1,9 @@
 'use client';
 
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../../lib/supabaseClient'
+import {Game, Player} from "@/types"
 
 export default function NewGameForm(){
   const router = useRouter()
@@ -10,20 +11,33 @@ export default function NewGameForm(){
     admin: "",
     gameName: ""
   })
+  const [playerData, setPlayerData] = useState<Player[]>()
+  const [gameData, setGameData] = useState<Game[]>()
+
+  useEffect(() => { // Set Local storage and redirect if data has been fetched
+    if (playerData && gameData) {
+      localStorage.clear()
+      localStorage.setItem('player_id', playerData[0]?.id.toLocaleString())
+      localStorage.setItem('game_id', gameData[0].id.toLocaleString())
+      router.push(`/games/${gameData[0].id}`)
+    }
+  }, [gameData, playerData, router])
   
   const handleNewGameClick = async (e:FormEvent) => {
     e.preventDefault()
-    const { error, data } = await supabase
+    const { error, data: gameData } = await supabase
       .from('games')
       .insert({ name: formState.gameName, admin: formState.admin})
       .select()
-
-      console.log(error, data)
     if (error) {
-    } else if (data){
-      localStorage.setItem('gameId', data[0].id.toString())
-      localStorage.setItem('playerName', data[0].admin)
-      router.push(`/games/${data[0].id}`)
+      console.log(error)
+    } else if (gameData){
+      const { error, data: playerData } = await supabase
+      .from('players')
+      .insert({ name: formState.admin, game_id: gameData[0].id, is_admin: true})
+      .select()
+      setPlayerData(playerData)
+      setGameData(gameData)
     }
   }
 
