@@ -4,17 +4,13 @@ import Link from "next/link"
 export default function Home() {
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-     <Heading1>Mega Poker</Heading1>
-     <section>
-     <Heading2>Things to do</Heading2>
-      <Paragraph>1. Setup Game</Paragraph>
-      <Paragraph>2. Join a game</Paragraph>
-      <Paragraph>3. Start a game</Paragraph>
-     </section>
-     <Link href="/new">
-      <span className="bg-green-400 text-white p-4 rounded-lg shadow-lg">Create Game</span>
+     <section className='text-center flex flex-col gap-8 w-4/5'>
+      <Heading1>Mega Poker</Heading1>
+      <Paragraph>Planning poker®, also called Scrum poker, is a consensus-based technique for estimating, mostly used to estimate effort or relative size of user stories in software development. In planning poker, members of the group make estimates by playing numbered cards face-down to the table, instead of speaking them aloud. The cards are revealed, and the estimates are then discussed. By hiding the figures in this way, the group can avoid the cognitive bias of anchoring, where the first number spoken aloud sets a precedent for subsequent estimates.</Paragraph>
+      <Paragraph>To read more, check out the Wikipedia page.</Paragraph>
+      <Link href="/new">
+        <span className="bg-accent text-darkText p-4 rounded-lg shadow-lg">Create Game</span>
       </Link>
-    </main>
+     </section>
   )
 }
