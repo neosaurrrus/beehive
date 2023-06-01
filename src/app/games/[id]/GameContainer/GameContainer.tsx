@@ -22,7 +22,7 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
   const [players, setPlayers] = useState<Player[]>(serverPlayers)
   const [game, setGame] = useState<GameType>(serverGame)
   
-  const currentPlayer = players.find(player => player.id.toString() === localStorage.getItem('player_id'))
+  const currentPlayer = players?.find(player => player.id.toString() === localStorage.getItem('player_id'))
 
 
 // Realtime stuff
@@ -49,13 +49,14 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
       table: 'players',
       filter: `game_id=eq.${game.id}`,
     }, (payload: Payload<Player>) => {
-      const updatedPlayers = players.map(player => {
-        if(player.id === payload.new.id) {
-          return payload.new
-        }
-        return player
-      })
-      setPlayers(updatedPlayers)
+
+      console.log(payload, 'payload')
+      setPlayers(prev => {
+        console.log(prev, 'prev')
+        const newState = prev.filter(e => e.id !== payload.new.id).concat(payload.new)
+        console.log(newState , 'newState')
+        return newState
+      });
     }).subscribe()
 
     return () => {
@@ -90,7 +91,6 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
     )
   }
 
-  console.log(players, ' playuers in GC')
   if(currentPlayer && game && players) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-between p-24">

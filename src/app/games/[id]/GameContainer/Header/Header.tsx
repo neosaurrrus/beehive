@@ -17,20 +17,18 @@ export default function Header({game, players = []}: {game: Game, players: Playe
       .from('games')
       .update({ is_revealed: !game.is_revealed })
       .eq('id', game.id)
-      .select()
-    
       error && console.log(error)
   }
 
+ 
   const resetPlayerScores = async () => {
     const { error, data } = await supabase
       .from('players')
       .update({ score: null })
       .eq('game_id', game.id)
-      .select()
 
       error && console.log(error)
-      console.log('resetPlayerScores', data)
+
 
       // TODO: set game state to not revealed
   }
