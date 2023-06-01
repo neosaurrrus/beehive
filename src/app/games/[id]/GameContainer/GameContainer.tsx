@@ -93,12 +93,12 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
 
   if(currentPlayer && game && players) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <section className='flex flex-col gap-8 w-3/4 min-w-[600px]'>
         {/* Lets try and make these as dumb as possible */}
-        <Header game={game} players={players}/>
+        <Header game={game} players={players} currentPlayer={currentPlayer}/>
         <Table players={players} isRevealed={game.is_revealed} currentPlayer={currentPlayer}/>
         <Hand currentPlayer={currentPlayer}/>
-      </main>
+      </section>
     )
   }
 }
