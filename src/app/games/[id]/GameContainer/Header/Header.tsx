@@ -12,6 +12,28 @@ export default function Header({game, players = []}: {game: Game, players: Playe
     })
   }
 
+  const revealPlayerScores = async () => {
+    const { error, data: gameData } = await supabase
+      .from('games')
+      .update({ is_revealed: !game.is_revealed })
+      .eq('id', game.id)
+      .select()
+    
+      error && console.log(error)
+      console.log('revealPlayerScores', gameData)
+  }
+
+  const resetPlayerScores = async () => {
+    const { error, data } = await supabase
+      .from('players')
+      .update({ score: null })
+      .eq('game_id', game.id)
+      .select()
+
+      error && console.log(error)
+      console.log('resetPlayerScores', data)
+  }
+
   return (
       <section>
       <Heading1>{name}</Heading1>
@@ -21,15 +43,15 @@ export default function Header({game, players = []}: {game: Game, players: Playe
       
       <button 
         className="bg-green-400 text-white p-4 rounded-lg shadow-lg"
-        onClick={async () => {
-          const { error, data: gameData } = await supabase
-            .from('games')
-            .update({ is_revealed: !game.is_revealed })
-            .eq('id', game.id)
-            .select()
-        }}
-        
-        >{game.is_revealed ? 'Reveal' : 'Reset'}</button>
+        onClick={revealPlayerScores}
+        >{game.is_revealed ? 'Reveal' : 'Hide'}
+      </button>
+
+      <button
+        className="bg-red-400 text-white p-4 rounded-lg shadow-lg"
+        onClick={resetPlayerScores}
+        >Reset
+      </button>
       </section>
   )
 }

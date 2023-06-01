@@ -1,22 +1,19 @@
 'use client';
-import { supabase } from '@/lib/supabaseClient'
-import {Heading1, Heading2, Paragraph} from "@/components/Text/Text"
-import {Game, Player} from "@/types"
+import {Player} from "@/types"
+import HandCard from './HandCard/HandCard';
+import { useState } from "react";
 
-interface Props {
-  game: Game, 
-  players: Player[]
-  currentPlayer: Player
-}
-
-export default function Hand({game, players = [], currentPlayer}: Props) {
-
+const cardsToUse = [0,1,2,3,5,8,13,20,40]
+export default function Hand({currentPlayer}: {currentPlayer: Player}) {
 
 
   return (
       <section>
+        {!currentPlayer.score && cardsToUse.map((cardScore, index) => {
+          return <HandCard key={index} score={cardScore} playerId={currentPlayer.id}/>
+        })}
       
-      <p>Player: {currentPlayer.id}- {currentPlayer.name}</p>
+      <p>Player: {currentPlayer.id}- {currentPlayer.name} - { currentPlayer.score}</p>
       </section>
   )
 }
