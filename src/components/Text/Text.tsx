@@ -1,18 +1,24 @@
+import { Space_Grotesk } from 'next/font/google';
+const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] })
 
-
-export function Heading1({children}: {children: React.ReactNode}) {
-  return (
-    <h1 className='text-3xl text-green-400'>{children}</h1>
-  )
-}
-export function Heading2({children}: {children: React.ReactNode}) {
-  return (
-    <h1 className='text-xl text-red-400'>{children}</h1>
-  )
+interface TextProps {
+  children: React.ReactNode,
+  extraClasses?: string,
 }
 
-export function Paragraph({children}: {children: React.ReactNode}) {
+export function Heading1({extraClasses, children}: {children: React.ReactNode, extraClasses?: string}) {
   return (
-    <p className='text-blue-400'>{children}</p>
+    <h1 className={`text-4xl font-semibold tracking-wide text-accent ${extraClasses} ${spaceGrotesk.className}`}>{children}</h1>
+  )
+}
+export function Heading2({extraClasses, children}: {children: React.ReactNode, extraClasses?: string}) {
+  return (
+    <h2 className={`text-xl font-semibold tracking-wide text-accent ${extraClasses} ${spaceGrotesk.className}`}>{children}</h2>
+  )
+}
+
+export function Paragraph({extraClasses, children}: {children: React.ReactNode, extraClasses?: string}) {
+  return (
+    <p className={`${extraClasses}`}>{children}</p>
   )
 }
