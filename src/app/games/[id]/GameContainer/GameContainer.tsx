@@ -4,6 +4,8 @@ import {Game as GameType, Player} from "@/types"
 import JoinGameForm from "../JoinGameForm/JoinGameForm";
 import { useEffect, useState } from "react";
 import Header from "./Header/Header";
+import Table from "./Table/Table";
+import Hand from "./Hand/Hand";
 
 interface Payload<T>{
   commit_timestamp: string,
@@ -19,6 +21,7 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
 
   const [players, setPlayers] = useState<Player[]>(serverPlayers)
   const [game, setGame] = useState<GameType>(serverGame)
+  const currentPlayer = players.find(player => player.id.toString() === localStorage.getItem('player_id'))
 
   useEffect(() => {
     const playersChannel = supabase.channel('Realtime Players').on('postgres_changes', {
@@ -64,12 +67,16 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
     )
   }
 
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl">Welcome to {serverGame.name}</h1>
-      <Header game={game} players={players}/>
-  </main>
-  )
+  if(currentPlayer && game && players) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        {/* Lets try and make these as dumb as possible */}
+        <Header game={game} players={players}/>
+        <Table players={players} game={game}/>
+        <Hand players={players} game={game} currentPlayer={currentPlayer}/>
+      </main>
+    )
+  }
 }
 
 
