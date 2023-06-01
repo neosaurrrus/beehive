@@ -47,7 +47,7 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
       event: 'UPDATE',
       schema: 'public',
       table: 'players',
-      filter: `game_id=eq.${serverGame.id}`,
+      filter: `game_id=eq.${game.id}`,
     }, (payload: Payload<Player>) => {
       const updatedPlayers = players.map(player => {
         if(player.id === payload.new.id) {
@@ -55,7 +55,6 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
         }
         return player
       })
-      console.log('updatedPlayers', updatedPlayers)
       setPlayers(updatedPlayers)
     }).subscribe()
 
@@ -63,7 +62,7 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
       supabase.removeChannel(playersUpdateChannel)
     }
 
-  },[players, serverGame.id])
+  },[players, game.id])
 
 
   useEffect(() => { // Updates to Game State
@@ -91,6 +90,7 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
     )
   }
 
+  console.log(players, ' playuers in GC')
   if(currentPlayer && game && players) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-between p-24">

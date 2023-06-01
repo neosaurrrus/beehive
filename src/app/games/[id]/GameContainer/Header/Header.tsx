@@ -20,7 +20,6 @@ export default function Header({game, players = []}: {game: Game, players: Playe
       .select()
     
       error && console.log(error)
-      console.log('revealPlayerScores', gameData)
   }
 
   const resetPlayerScores = async () => {
@@ -32,6 +31,8 @@ export default function Header({game, players = []}: {game: Game, players: Playe
 
       error && console.log(error)
       console.log('resetPlayerScores', data)
+
+      // TODO: set game state to not revealed
   }
 
   return (
@@ -44,7 +45,7 @@ export default function Header({game, players = []}: {game: Game, players: Playe
       <button 
         className="bg-green-400 text-white p-4 rounded-lg shadow-lg"
         onClick={revealPlayerScores}
-        >{game.is_revealed ? 'Reveal' : 'Hide'}
+        >{game.is_revealed ? 'Hide' : 'Reveal'}
       </button>
 
       <button
