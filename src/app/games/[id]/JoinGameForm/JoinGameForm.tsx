@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react"
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient'
 import {Player} from "@/types"
+import { Heading1 } from "@/components/Text/Text";
 
 export default function JoinGameForm({gameId}: {gameId: number}){
   const router = useRouter()
@@ -18,6 +19,7 @@ export default function JoinGameForm({gameId}: {gameId: number}){
       localStorage.setItem('player_id', playerData[0]?.id.toLocaleString())
       localStorage.setItem('game_id', gameId.toLocaleString())
       router.push(`/games/${gameId}`)
+      window.location.reload()
     }
   }, [gameId, playerData, router])
 
@@ -36,11 +38,23 @@ export default function JoinGameForm({gameId}: {gameId: number}){
      playerData && setPlayerData(playerData) 
     }
 
-  return (
-    <form className="flex flex-col bg-teal-800" onSubmit={handleJoinGameClick}>
-      <label>Your Name (what other team members will see)</label>
-      <input className='bg-gray-400' type="text" value={formState.name} onChange={e => setFormState({...formState, name: e.target.value})} />
-      <button className="bg-green-400 text-white p-4 rounded-lg shadow-lg">Join</button>
-    </form>
-  )
+
+    const inputClasses = 'bg-transparent border-2 rounded-4xl h-8 px-4 py-6 '
+    return (
+      <form className="flex flex-col gap-8 w-2/4 min-w-[600px] bg-sectionBackground p-12 rounded-4xl shadow-2xl" onSubmit={handleJoinGameClick}>
+        <Heading1 extraClasses='text-center w-full mt-2'>Join a game</Heading1>
+        <div className='flex flex-col gap-4'>
+          <label>Your Name (what other team members will see)</label>
+          <input className={inputClasses} type="text" value={formState.name} onChange={e => setFormState({...formState, name: e.target.value})} />
+        </div>
+        <div className='w-full flex items-center justify-center mt-4'>
+          <button 
+            className="bg-accent text-darkText font-semibold tracking-wide p-4 rounded-4xl shadow-xl w-48 h-16 hover:bg-accent/75 duration-200"
+          >
+            Join Game
+          </button>
+        </div>
+      </form>
+    )
+
 }
