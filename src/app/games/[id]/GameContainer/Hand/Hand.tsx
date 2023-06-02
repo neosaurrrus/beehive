@@ -14,8 +14,8 @@ export default function Hand({currentPlayer}: {currentPlayer: Player}) {
     })
   }
   return (
-    <section className='bg-sectionBackground rounded-3xl p-8 h-36 shadow-xl flex justify-center items-center'>
-       {currentPlayer.score ? <p className={`text-4xl text-accent font-semibold  ${spaceGrotesk.className}`}>You played {currentPlayer.score}, waiting for others...</p> : renderCards()}
+    <section className='bg-sectionBackground rounded-4xl p-8 h-36 shadow-xl flex justify-center items-center'>
+       {currentPlayer.score ? <p className={`text-xl text-accent font-semibold  ${spaceGrotesk.className}`}>You played {currentPlayer.score}, waiting for others...</p> : renderCards()}
     </section>
   )
 }
