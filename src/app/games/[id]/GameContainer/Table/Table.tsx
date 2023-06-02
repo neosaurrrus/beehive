@@ -10,6 +10,8 @@ interface Props {
 }
 export default function Table({players, isRevealed, currentPlayer}: Props) {
 
+  const numberOfPlayersWithScore = players.filter(player => player.score).length
+
   const renderPlayerScoreCards = () => {
     return players.map((player, index) => {
       if (player.score) {
@@ -22,25 +24,30 @@ export default function Table({players, isRevealed, currentPlayer}: Props) {
   const renderResult = () => {
    if ( players.every(player => player.score === currentPlayer.score)) {
       return <span>Everyone is in agreement!</span>
-    } else {
+    } else if (numberOfPlayersWithScore === 1) {
+      return <span>1 person played, not that exciting was it?</span>
+    }
+    else {
       return <span>Not everyone is in agreement! Play again?</span>
     }
   }
 
   const renderStatus = () => {
     const numberOfPlayers = players.length
-    const numberOfPlayersWithScore = players.filter(player => player.score).length
+
     if (numberOfPlayers === numberOfPlayersWithScore) {
       return <span>Everyone has played! Reveal?</span>
-    } else {
+    } else if (numberOfPlayersWithScore !== 0) {
       return <span className="animate-spin"> {numberOfPlayersWithScore} out of {numberOfPlayers} played so far... </span>
+    } else {
+      return <span>Waiting for players to play...</span>
     }
   }
     
 
   return (
       <section className='bg-sectionBackground rounded-3xl p-4 h-72 shadow-xl flex flex-col justify-evenly items-center'>
-        <Paragraph>
+        <Paragraph extraClasses="text-accent">
           {isRevealed ? renderResult() : (renderStatus())} 
         </Paragraph>
         <div className='flex gap-4'>

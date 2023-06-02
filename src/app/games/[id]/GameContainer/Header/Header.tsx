@@ -29,6 +29,14 @@ export default function Header({game, players, currentPlayer}: {game: Game, play
       error && console.log(error)
 
       // TODO: set game state to not revealed
+
+      const { error: gameError, data: gameData } = await supabase
+      .from('games')
+      .update({ is_revealed: false })
+      .eq('id', game.id)
+      gameError && console.log(gameError)
+
+      // IDEA CAN WE CALL THE PLAYERS AGAIN HERE TO UPDATE THE STATE?
   }
 
   const renderAdminButtons = () => (
