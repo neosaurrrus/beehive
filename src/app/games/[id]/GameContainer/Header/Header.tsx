@@ -21,12 +21,23 @@ export default function Header({game, players, currentPlayer}: {game: Game, play
   }
 
   const resetPlayerScores = async () => {
-    const { error, data } = await supabase
+    players.forEach(async (player) => {
+
+     await supabase
       .from('players')
       .update({ score: null })
       .eq('game_id', game.id)
+      .eq('id', player.id)
 
-      error && console.log(error)
+
+      // Temporary fix for the bug where the score is not reset
+      await supabase
+      .from('players')
+      .update({ score: null })
+      .eq('game_id', game.id)
+      .eq('id', player.id)
+
+    })
 
       // TODO: set game state to not revealed
 
