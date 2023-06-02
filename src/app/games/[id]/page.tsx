@@ -15,7 +15,7 @@ export default async function Game({ params }: { params: { id: string } }) {
   }
 }
 
-export async function getGame(id: string): Promise<Game> {
+async function getGame(id: string): Promise<Game> {
   const {data} = await supabase.from('games')
      .select()
      .eq('id', Number(id))
@@ -25,7 +25,7 @@ export async function getGame(id: string): Promise<Game> {
     return data[0]
 }
 
-export async function getPlayers(gameId: string) {
+async function getPlayers(gameId: string) {
   const {data} = await supabase.from('players').select('*').eq('game_id', gameId)
   if (!data) {
     throw new Error('Failed to fetch player data')
