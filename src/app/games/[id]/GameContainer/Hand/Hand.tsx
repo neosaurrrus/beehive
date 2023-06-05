@@ -1,4 +1,4 @@
-'use client';
+
 import {Player} from "@/types"
 import HandCard from './HandCard/HandCard';
 import {Paragraph} from "@/components/Text/Text"
