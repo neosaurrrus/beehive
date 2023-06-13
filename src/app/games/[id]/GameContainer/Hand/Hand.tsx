@@ -13,7 +13,7 @@ export default function Hand({currentPlayer}: {currentPlayer: Player}) {
   }
   return (
     <section className='bg-sectionBackground rounded-4xl p-8 h-36 shadow-xl flex justify-center items-center'>
-       {currentPlayer.score ? <Paragraph extraClasses={`text-accent`}>You played {currentPlayer.score}</Paragraph> : renderCards()}
+       {currentPlayer.score > 0? <Paragraph extraClasses={`text-accent`}>You played {currentPlayer.score}</Paragraph> : renderCards()}
     </section>
   )
 }

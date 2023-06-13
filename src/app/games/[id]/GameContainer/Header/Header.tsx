@@ -21,25 +21,10 @@ export default function Header({game, players, currentPlayer}: {game: Game, play
   }
 
   const resetPlayerScores = async () => {
-    players.forEach(async (player) => {
-
      await supabase
       .from('players')
-      .update({ score: null })
+      .update({ score: 0 })
       .eq('game_id', game.id)
-      .eq('id', player.id)
-
-
-      // Temporary fix for the bug where the score is not reset
-      await supabase
-      .from('players')
-      .update({ score: null })
-      .eq('game_id', game.id)
-      .eq('id', player.id)
-
-    })
-
-      // TODO: set game state to not revealed
 
       const { error: gameError, data: gameData } = await supabase
       .from('games')
@@ -47,7 +32,6 @@ export default function Header({game, players, currentPlayer}: {game: Game, play
       .eq('id', game.id)
       gameError && console.log(gameError)
 
-      // IDEA CAN WE CALL THE PLAYERS AGAIN HERE TO UPDATE THE STATE?
   }
 
   const renderAdminButtons = () => (

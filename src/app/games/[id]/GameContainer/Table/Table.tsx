@@ -10,17 +10,15 @@ interface Props {
 }
 export default function Table({players, isRevealed, currentPlayer}: Props) {
 
-  const numberOfPlayersWithScore = players.filter(player => player.score).length
+  const numberOfPlayersWithScore = players.filter(player => player.score > 0).length
 
   const renderPlayerScoreCards = () => {
     return players.map((player, index) => {
-      if (player.score) {
+      if (player.score > 0) {
         return <TableCard player={player} isRevealed={isRevealed} isCurrentPlayer={player.id === currentPlayer.id} key={index}/>
       }
     })
   }
-
-
   const renderResult = () => {
    if ( players.every(player => player.score === currentPlayer.score)) {
       return <span>Everyone is in agreement!</span>
