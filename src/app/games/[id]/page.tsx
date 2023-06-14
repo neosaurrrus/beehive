@@ -30,6 +30,5 @@ async function getPlayers(gameId: string) {
   if (!data) {
     throw new Error('Failed to fetch player data')
   }
-
   return data
 }

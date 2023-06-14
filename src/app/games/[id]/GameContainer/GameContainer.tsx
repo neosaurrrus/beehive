@@ -21,9 +21,18 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
 
   const [players, setPlayers] = useState<Player[]>(serverPlayers)
   const [game, setGame] = useState<GameType>(serverGame)
+  const [isPlayerUpdateSubOpen, setIsPlayerUpdateSubOpen] = useState<boolean>(false)
   
-  const currentPlayer = players?.find(player => player.id.toString() === localStorage.getItem('player_id'))
+  const currentPlayer = players?.find(player => player.id.toString() === localStorage.getItem('player_id')) || null
 
+
+  const refreshPlayers = async () => {
+    const {data} = await supabase.from('players').select('*').eq('game_id', game.id)
+    if (!data) {
+      throw new Error('Failed to fetch player data')
+    }
+    setPlayers(data)
+  }
 
 // Realtime stuff
   useEffect(() => {  // Inserts to Players
@@ -43,27 +52,26 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
   },[players, serverGame.id])
 
   useEffect(() => { // Updates to a particular player
-    const playersUpdateChannel = supabase.channel('Realtime Players').on('postgres_changes', {
-      event: 'UPDATE',
-      schema: 'public',
-      table: 'players',
-      filter: `game_id=eq.${game.id}`,
-    }, (payload: Payload<Player>) => {
-
-      console.log(payload, 'payload')
-      setPlayers(prev => {
-        console.log(prev, 'prev')
-        const newState = prev.filter(e => e.id !== payload.new.id).concat(payload.new)
-        console.log(newState , 'newState')
-        return newState
-      });
-    }).subscribe()
-
-    return () => {
-      supabase.removeChannel(playersUpdateChannel)
-    }
+      const playersUpdateChannel = supabase.channel('Realtime Players Update').on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'players',
+        filter: `game_id=eq.${game.id}`,
+      }, (payload: Payload<Player>) => {
+  
+        console.log(payload.new.score, 'payload')
+        setPlayers(prev => {
+          const newState = prev.filter(e => e.id !== payload.new.id).concat(payload.new)
+          return newState
+        });
+      }).subscribe(status => {
+        if (status === 'CLOSED'){
+          refreshPlayers() // This is a hacky way to refresh the players when the channel closes, which it shouldn't
+        }
+      } )
 
   },[players, game.id])
+
 
 
   useEffect(() => { // Updates to Game State
@@ -103,4 +111,11 @@ export default function GameContainer({serverGame, serverPlayers}:{serverGame: G
   }
 }
 
+async function getPlayers(gameId: string) {
+  const {data} = await supabase.from('players').select('*').eq('game_id', gameId)
+  if (!data) {
+    throw new Error('Failed to fetch player data')
+  }
 
+  return data
+}
