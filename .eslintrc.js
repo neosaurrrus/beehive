@@ -1,19 +1,20 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
   },
+  plugins: ["react", "prettier"],
   extends: [
-    'standard-with-typescript',
-    'plugin:react/recommended'
+    "standard-with-typescript",
+    "plugin:react/recommended",
+    "next/core-web-vitals",
+    "prettier",
   ],
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module'
+    ecmaVersion: "latest",
+    sourceType: "module",
   },
-  plugins: [
-    'react'
-  ],
   rules: {
-  }
-}
+    "prettier/prettier": "error",
+  },
+};
