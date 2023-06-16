@@ -10,6 +10,7 @@ export default function JoinGameForm({gameId}: {gameId: number}){
   const router = useRouter()
   const [formState, setFormState] = useState({
     name: "",
+    isLoading: false
   })
   const [playerData, setPlayerData] = useState<Player[]>()
   
@@ -25,6 +26,7 @@ export default function JoinGameForm({gameId}: {gameId: number}){
 
   const handleJoinGameClick = async (e:FormEvent) => {
     e.preventDefault()
+    setFormState({...formState, isLoading: true})
   
     const { error, data: playerData } = await supabase
       .from('players')
@@ -49,7 +51,7 @@ export default function JoinGameForm({gameId}: {gameId: number}){
         </div>
         <div className='w-full flex items-center justify-center mt-4'>
           <button 
-            className="bg-accent text-darkText font-semibold tracking-wide p-4 rounded-4xl shadow-xl w-48 h-16 hover:bg-accent/75 duration-200"
+           className={`${formState.isLoading ? 'bg-accent/50' : 'bg-accent/75'} text-darkText font-semibold tracking-wide p-4 rounded-4xl shadow-xl w-48 h-16 hover:bg-accent duration-200`}
           >
             Join Game
           </button>
