@@ -16,6 +16,11 @@ export function Heading2({extraClasses, children}: {children: React.ReactNode, e
     <h2 className={`text-xl font-semibold tracking-wide text-accent ${extraClasses} ${spaceGrotesk.className}`}>{children}</h2>
   )
 }
+export function ButtonLabel({extraClasses, children}: {children: React.ReactNode, extraClasses?: string}) {
+  return (
+    <span className={`text-lg font-semibold tracking-wide text-darkText ${extraClasses} ${spaceGrotesk.className}`}>{children}</span>
+  )
+}
 
 export function Paragraph({extraClasses, children}: {children: React.ReactNode, extraClasses?: string}) {
   return (

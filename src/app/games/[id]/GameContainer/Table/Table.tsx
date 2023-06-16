@@ -36,7 +36,7 @@ export default function Table({players, isRevealed, currentPlayer}: Props) {
     if (numberOfPlayers === numberOfPlayersWithScore) {
       return <span>Everyone has played! Reveal?</span>
     } else if (numberOfPlayersWithScore !== 0) {
-      return <span className="animate-spin"> {numberOfPlayersWithScore} out of {numberOfPlayers} played so far... </span>
+      return <span> {numberOfPlayersWithScore} out of {numberOfPlayers} played so far... </span>
     } else {
       return <span>Waiting for players to play...</span>
     }

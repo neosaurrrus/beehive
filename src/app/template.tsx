@@ -15,7 +15,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
     <div
        className={`
         ${fade ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'} 
-        'transition duration-500 ease-out flex flex-col items-center justify-center min-h-screen'
+        'transition duration-500 ease-out flex flex-col items-center justify-center min-h-screen w-full '
        `} 
     >
       {children}
