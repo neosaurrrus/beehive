@@ -20,5 +20,5 @@ jobs:
                 version: 6.0.2
             - run: pnpm install
             - run: pnpm test
-            - run: pnpm build
+            - run: pnpm run build
 
