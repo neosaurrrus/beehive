@@ -33,6 +33,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.32.2",
     "supabase": "^1.64.8",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "vitest": "^0.32.2"
   }
 }
