@@ -1,3 +1,5 @@
+const { types } = require("util");
+
 module.exports = {
   env: {
     browser: true,
@@ -13,8 +15,12 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
+    project: ["./tsconfig.json"],
   },
   rules: {
     "prettier/prettier": "error",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-floating-promises": "warn",
+    "@typescript-eslint/no-misused-promises": "warn",
   },
 };
