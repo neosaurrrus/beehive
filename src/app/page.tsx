@@ -6,12 +6,12 @@ import {
 } from "@/components/Text/Text";
 import Link from "next/link";
 
-export default function Home(): React.ReactElement {
+export default function Home (): React.ReactElement {
   return (
     <section className="text-center flex flex-col gap-12 w-4/5">
       <Heading1>The Estimation Game</Heading1>
       <Heading2>
-        `&quot`The most fun you will ever have estimating...`&quot` - <i>Me</i>
+        The most fun you will ever have estimating... - <i>Me</i>
       </Heading2>
       <Paragraph>
         Planning poker®, also called Scrum poker, is a consensus-based technique
@@ -32,3 +32,4 @@ export default function Home(): React.ReactElement {
     </section>
   );
 }
+
