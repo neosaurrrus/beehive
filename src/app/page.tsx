@@ -23,7 +23,6 @@ export default function Home (): React.ReactElement {
         the cognitive bias of anchoring, where the first number spoken aloud
         sets a precedent for subsequent estimates.
       </Paragraph>
-      <Paragraph>To read more, check out the Wikipedia page.</Paragraph>
       <Link href="/new">
         <span className="bg-accent/75 text-darkText font-semibold tracking-wide p-6 rounded-4xl shadow-xl h-16 hover:bg-accent duration-200">
           <ButtonLabel>Create Game</ButtonLabel>
