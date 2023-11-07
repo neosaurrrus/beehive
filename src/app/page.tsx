@@ -14,9 +14,8 @@ export default function Home (): React.ReactElement {
         The most fun you will ever have estimating... - <i>Me</i>
       </Heading2>
       <Paragraph>
-        Planning poker®, also called Scrum poker, is a consensus-based technique
-        for estimating, mostly used to estimate effort or relative size of user
-        stories in software development. In planning poker, members of the group
+        This is a clone of Planning poker to test some Next 13 and Supabase hookups. 
+        If you don't know Planning Poker then let me explain. Members of the group
         make estimates by playing numbered cards face-down to the table, instead
         of speaking them aloud. The cards are revealed, and the estimates are
         then discussed. By hiding the figures in this way, the group can avoid
