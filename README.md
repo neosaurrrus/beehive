@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is the Estimation Game, a demo using Next 13 and Supabase to create a Planning Poker app with minimal fuss while testing a few things I wanted to test along the way. It should be fully functionality barring a few QOL things I will get around to as well as bugs. There will be bugs.
 
 ## Getting Started
 
