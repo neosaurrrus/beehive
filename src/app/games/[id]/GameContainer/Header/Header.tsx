@@ -1,5 +1,6 @@
 "use client";
 import { supabase } from "@/lib/supabaseClient";
+import {usePathname} from "next/navigation"
 import {
   ButtonLabel,
   Heading1,
@@ -18,6 +19,7 @@ export default function Header({
   currentPlayer: Player;
 }) {
   const { name, admin } = game;
+  const url = usePathname()
 
   const hasSomeCardsPlayed = players.some((player) => player.score > 0);
 
@@ -73,6 +75,10 @@ export default function Header({
     </div>
   );
 
+  const handleCopyClick = () => {
+    const fullUrl = process.env.NEXT_PUBLIC_BASE_URL + url
+    navigator.clipboard.writeText(fullUrl)
+  }
   const buttonClasses = `bg-accent/75 flex justify-center items-center p-4 rounded-4xl shadow-lg w-32 h-12 ${
     hasSomeCardsPlayed ? "hover:bg-accent" : ""
   } duration-200`;
@@ -82,13 +88,13 @@ export default function Header({
       <div className="w-4/5 flex flex-col justify-center">
         <Heading1>{name}</Heading1>
         <Heading2 extraClasses="text-lightText mt-2 mb-6">
-          Created by <span className="text-accent font-semibold">{admin}</span>
+          Created by <span className="text-accent font-semibold">{admin}</span> 
         </Heading2>
         <Paragraph extraClasses="font-semibold">
           Participants:{renderPlayers()}{" "}
+          <button onClick={handleCopyClick} className='text-sm text-accent hover:font-bold'>-  [copy game url to clipboard]</button>
         </Paragraph>
       </div>
-
       {currentPlayer.is_admin && renderAdminButtons()}
     </section>
   );
