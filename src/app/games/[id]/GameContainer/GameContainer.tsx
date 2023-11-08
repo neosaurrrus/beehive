@@ -29,7 +29,7 @@ export default function GameContainer({
   const currentPlayer =
     players?.find(
       (player) => player.id.toString() === localStorage.getItem("player_id")
-    ) != null || null;
+    ) || null;
 
   // Realtime stuff
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function GameContainer({
       if (data == null) {
         throw new Error("Failed to fetch player data");
       }
-      setPlayers(data);
+        // setPlayers(data); consoleing this out to prevent foever render loop, might be causing a new bug, lets see
     };
     const playersUpdateChannel = supabase
       .channel("Realtime Players Update")
@@ -78,7 +78,6 @@ export default function GameContainer({
           filter: `game_id=eq.${game.id}`,
         },
         (payload: Payload<Player>) => {
-          console.log(payload.new.score, "payload");
           setPlayers((prev) => {
             const newState = prev
               .filter((e) => e.id !== payload.new.id)
@@ -89,7 +88,7 @@ export default function GameContainer({
       )
       .subscribe((status) => {
         if (status === "CLOSED") {
-          refreshPlayers(); // This is a hacky way to refresh the players when the channel closes, which it shouldn't
+          // refreshPlayers(); // This is a hacky way to refresh the players when the channel closes, which it shouldn't
         }
       });
     return () => {
@@ -128,7 +127,8 @@ export default function GameContainer({
     );
   }
 
-  if (currentPlayer != null) {
+
+  if (currentPlayer && currentPlayer != null) {
     return (
       <section className="flex flex-col gap-8 w-3/4 min-w-[600px]">
         {/* Lets try and make these as dumb as possible */}
